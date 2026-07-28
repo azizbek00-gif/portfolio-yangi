@@ -29,6 +29,7 @@ class SiteSettings(SingletonModel):
     profile_image = models.ImageField(
         "Profil rasmi", upload_to="profil/", blank=True, null=True,
         storage=_db_storage,
+        help_text="O'chirish uchun: pastdagi 'Tozalash' katagini belgilab, saqlang.",
     )
     favicon = models.ImageField(
         "Favicon", upload_to="favicon/", blank=True, null=True, storage=_db_storage
@@ -144,7 +145,7 @@ class Project(models.Model):
     image = models.ImageField(
         "Rasm", upload_to="loyihalar/", blank=True, null=True,
         storage=_db_storage,
-        help_text="Kompyuteringizdan rasm tanlang.",
+        help_text="Kompyuteringizdan rasm tanlang. O'chirish uchun 'Tozalash' katagini belgilang.",
     )
     live_url = models.URLField(
         "Sayt havolasi", blank=True,
@@ -170,6 +171,18 @@ class Project(models.Model):
     def tech_list(self):
         return [t.strip() for t in self.tech_stack.split(",") if t.strip()]
 
+    @property
+    def detail_url(self):
+        """Batafsil tugmasi qayerga olib borishi:
+        link bo'lsa — link; faqat rasm bo'lsa — rasm; hech biri bo'lmasa — bo'sh."""
+        if self.live_url:
+            return self.live_url
+        if self.github_url:
+            return self.github_url
+        if self.image:
+            return self.image.url
+        return ""
+
 
 class Contact(SingletonModel):
     section_title = models.CharField(
@@ -179,8 +192,8 @@ class Contact(SingletonModel):
     email = models.EmailField("Email", blank=True)
     phone = models.CharField("Telefon", max_length=40, blank=True)
     show_phone = models.BooleanField(
-        "Telefon saytda ko'rinsin", default=False,
-        help_text="Ochiq raqam spam yig'uvchi botlar nishoniga aylanadi.",
+        "Telefon saytda ko'rinsin", default=True,
+        help_text="Ochiq raqam spam botlar nishoniga aylanishi mumkin, lekin portfolio uchun odatda ko'rsatiladi.",
     )
     github_username = models.CharField("GitHub foydalanuvchi nomi", max_length=60, blank=True)
     github_url = models.URLField("GitHub havolasi", blank=True)

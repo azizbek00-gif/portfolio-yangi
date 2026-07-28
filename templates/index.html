@@ -65,12 +65,14 @@
             {% for t in p.tech_list %}<span class="tech-tag">{{ t }}</span>{% endfor %}
           </div>
           {% endif %}
-          {% if p.live_url or p.github_url %}
           <div class="project-links">
-            {% if p.live_url %}<a href="{{ p.live_url }}" target="_blank" rel="noopener" class="project-link">Saytni ochish <i class="fas fa-arrow-right"></i></a>{% endif %}
-            {% if p.github_url %}<a href="{{ p.github_url }}" target="_blank" rel="noopener" class="project-link project-link--muted"><i class="fab fa-github"></i> GitHub</a>{% endif %}
+            {% if p.detail_url %}
+              <a href="{{ p.detail_url }}" target="_blank" rel="noopener" class="project-link">Batafsil <i class="fas fa-arrow-right"></i></a>
+            {% endif %}
+            {% if p.github_url and p.live_url %}
+              <a href="{{ p.github_url }}" target="_blank" rel="noopener" class="project-link project-link--muted"><i class="fab fa-github"></i> GitHub</a>
+            {% endif %}
           </div>
-          {% endif %}
         </div>
       </div>
       {% endfor %}

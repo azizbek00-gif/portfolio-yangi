@@ -35,6 +35,22 @@ class Command(BaseCommand):
             model.load()
         self.stdout.write("Sozlama yozuvlari tayyor.")
 
+        # Aloqa ma'lumotlari bo'sh bo'lsa — eski sayt qiymatlari bilan to'ldiramiz.
+        c = Contact.load()
+        changed = False
+        if not c.email:
+            c.email = "azizbek2004uzbek@gmail.com"; changed = True
+        if not c.phone:
+            c.phone = "+998 33 996 36 30"; changed = True
+        if not c.github_username:
+            c.github_username = "azizbek00-gif"; changed = True
+        if not c.github_url:
+            c.github_url = "https://github.com/azizbek00-gif"; changed = True
+        c.show_phone = True
+        if changed or True:
+            c.save()
+            self.stdout.write("Aloqa ma'lumotlari to'ldirildi.")
+
         if NavItem.objects.exists():
             self.stdout.write("Menyu allaqachon mavjud — o'tkazib yuborildi.")
         else:

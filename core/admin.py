@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.urls import reverse
 from django.utils.html import format_html
 
 from .models import (
@@ -84,7 +85,7 @@ class ProjectSectionAdmin(SingletonAdmin):
 
 @admin.register(Project)
 class ProjectAdmin(admin.ModelAdmin):
-    list_display = ("thumb", "title", "tech_stack", "order", "is_published")
+    list_display = ("thumb", "title", "tech_stack", "order", "is_published", "amallar")
     list_display_links = ("thumb", "title")
     list_editable = ("order", "is_published")
     search_fields = ("title", "description", "tech_stack")
@@ -99,6 +100,18 @@ class ProjectAdmin(admin.ModelAdmin):
     @admin.display(description="Rasm")
     def thumb(self, obj):
         return _thumb(obj.image, 45)
+
+    @admin.display(description="Amallar")
+    def amallar(self, obj):
+        edit_url = reverse("admin:core_project_change", args=[obj.pk])
+        del_url = reverse("admin:core_project_delete", args=[obj.pk])
+        return format_html(
+            '<a href="{}" title="Tahrirlash" '
+            'style="text-decoration:none;font-size:16px;margin-right:12px;">✏️</a>'
+            '<a href="{}" title="O\'chirish" '
+            'style="text-decoration:none;font-size:16px;color:#dc3545;">🗑️</a>',
+            edit_url, del_url,
+        )
 
     @admin.display(description="Ko'rinishi")
     def preview(self, obj):
