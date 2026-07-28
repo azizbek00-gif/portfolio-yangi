@@ -31,6 +31,13 @@ CSRF_TRUSTED_ORIGINS = [
 ]
 CSRF_TRUSTED_ORIGINS.append("https://*.vercel.app")
 
+# Aniq domenlarni env orqali qo'shish (Vercel wildcard ba'zan yetmaydi).
+# Vercel'da CSRF_TRUSTED_ORIGINS env variable qo'ying, masalan:
+#   https://azizbek-phi.vercel.app
+_extra_csrf = config("CSRF_TRUSTED_ORIGINS", default="")
+if _extra_csrf:
+    CSRF_TRUSTED_ORIGINS += [o.strip() for o in _extra_csrf.split(",") if o.strip()]
+
 ADMIN_URL = config("ADMIN_URL", default="boshqaruv-panel/")
 
 INSTALLED_APPS = [
