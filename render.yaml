@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: azizbek-portfolio
+    runtime: python
+    plan: free
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn config.wsgi:application"
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.4
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: "False"
+      - key: ADMIN_URL
+        value: boshqaruv-panel/
+      - key: DATABASE_URL
+        fromDatabase:
+          name: portfolio-db
+          property: connectionString
+      # Quyidagilarni Render panelidan qo'lda kiritasiz:
+      # CLOUDINARY_URL, TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID, TELEGRAM_WEBHOOK_SECRET
+
+databases:
+  - name: portfolio-db
+    plan: free

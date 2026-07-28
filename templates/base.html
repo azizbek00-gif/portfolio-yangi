@@ -1,0 +1,43 @@
+{% load static %}<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}{{ site.logo_text|title }} | Portfolio{% endblock %}</title>
+<meta name="description" content="{{ hero.subtitle|striptags|truncatewords:25 }}">
+{% if site.favicon %}<link rel="icon" href="{{ site.favicon.url }}">{% endif %}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <div class="header-content">
+      <a href="#home" class="logo">{{ site.logo_text }}</a>
+      <nav class="nav-menu" id="navMenu">
+        {% for item in nav_items %}
+          <a href="{{ item.anchor }}"{% if item.is_button %} class="contact-link"{% endif %}>{{ item.label }}</a>
+        {% endfor %}
+      </nav>
+      <button class="nav-burger" id="navBurger" aria-label="Menyu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+{% block content %}{% endblock %}
+
+<footer>
+  <div class="container">
+    <p>&copy; {% now "Y" %} {{ site.logo_text|title }}. {{ site.footer_text }}</p>
+  </div>
+</footer>
+
+<script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>

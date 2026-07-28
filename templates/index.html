@@ -1,0 +1,181 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- ===== HERO ===== -->
+<section id="home" class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        {% if hero.badge_text %}<div class="hero-title">{{ hero.badge_text }}</div>{% endif %}
+        <h1 class="hero-name">{{ hero.title|linebreaksbr }}</h1>
+        <p class="hero-desc">{{ hero.subtitle|linebreaksbr }}</p>
+        <div class="hero-actions">
+          <a href="{{ hero.button_link }}" class="contact-link" style="display:inline-block;">{{ hero.button_text }}</a>
+          {% if site.cv_file %}<a href="{{ site.cv_file.url }}" class="project-link" download style="align-self:center;"><i class="fas fa-download"></i> CV yuklab olish</a>{% endif %}
+        </div>
+      </div>
+      <div>
+        {% if site.profile_image %}
+          <img src="{{ site.profile_image.url }}" alt="{{ site.logo_text }}" class="hero-image">
+        {% else %}
+          <div class="hero-image hero-image--empty">{{ site.logo_text|slice:":1" }}</div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== MEN HAQIMDA ===== -->
+<section id="about" class="about">
+  <div class="container">
+    <h2 class="section-title">{{ about.title|linebreaksbr }}</h2>
+    <div class="about-grid">
+      <div class="about-card">
+        {% for item in about_items %}
+          <div class="about-label">{{ item.label }}</div>
+          <div class="about-value">{{ item.value }}</div>
+        {% endfor %}
+      </div>
+      <div>
+        {% if about.subtitle %}<p class="hero-desc">{{ about.subtitle|linebreaksbr }}</p>{% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== LOYIHALAR ===== -->
+<section id="projects" class="projects">
+  <div class="container">
+    <h2 class="section-title">{{ project_section.title|linebreaksbr }}</h2>
+    <p class="projects-subtitle">{{ project_section.subtitle }}</p>
+
+    {% if projects %}
+    <div class="projects-grid">
+      {% for p in projects %}
+      <div class="project-card">
+        <div class="project-img">
+          {% if p.image %}<img src="{{ p.image.url }}" alt="{{ p.title }}" loading="lazy">{% else %}<i class="fas fa-code"></i>{% endif %}
+        </div>
+        <div class="project-content">
+          <h3 class="project-title">{{ p.title }}</h3>
+          <p class="project-desc">{{ p.description|linebreaksbr }}</p>
+          {% if p.tech_list %}
+          <div class="tech-tags">
+            {% for t in p.tech_list %}<span class="tech-tag">{{ t }}</span>{% endfor %}
+          </div>
+          {% endif %}
+          {% if p.live_url or p.github_url %}
+          <div class="project-links">
+            {% if p.live_url %}<a href="{{ p.live_url }}" target="_blank" rel="noopener" class="project-link">Saytni ochish <i class="fas fa-arrow-right"></i></a>{% endif %}
+            {% if p.github_url %}<a href="{{ p.github_url }}" target="_blank" rel="noopener" class="project-link project-link--muted"><i class="fab fa-github"></i> GitHub</a>{% endif %}
+          </div>
+          {% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="projects-empty">
+      <i class="fas fa-folder-open"></i>
+      <p>{{ project_section.empty_text }}</p>
+    </div>
+    {% endif %}
+  </div>
+</section>
+
+<!-- ===== ALOQA ===== -->
+<section id="contact" class="contact">
+  <div class="container">
+    <h2 class="section-title">{{ contact.section_title|linebreaksbr }}</h2>
+
+    {% if messages %}
+    <div class="flash">
+      {% for m in messages %}<div class="flash-item flash-item--{{ m.tags }}">{{ m }}</div>{% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="contact-grid">
+      <div class="contact-info">
+        {% if contact.email %}
+        <div class="contact-item">
+          <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+          <div>
+            <div class="contact-label">EMAIL</div>
+            <div class="contact-value"><a href="mailto:{{ contact.email }}">{{ contact.email }}</a></div>
+          </div>
+        </div>
+        {% endif %}
+
+        {% if contact.phone and contact.show_phone %}
+        <div class="contact-item">
+          <div class="contact-icon"><i class="fas fa-phone"></i></div>
+          <div>
+            <div class="contact-label">TELEFON</div>
+            <div class="contact-value"><a href="tel:{{ contact.phone }}">{{ contact.phone }}</a></div>
+          </div>
+        </div>
+        {% endif %}
+
+        {% if contact.github_url %}
+        <div class="contact-item">
+          <div class="contact-icon"><i class="fab fa-github"></i></div>
+          <div>
+            <div class="contact-label">GITHUB</div>
+            <div class="contact-value"><a href="{{ contact.github_url }}" target="_blank" rel="noopener">{{ contact.github_username|default:"GitHub" }}</a></div>
+          </div>
+        </div>
+        {% endif %}
+
+        {% if contact.telegram_url %}
+        <div class="contact-item">
+          <div class="contact-icon"><i class="fab fa-telegram"></i></div>
+          <div>
+            <div class="contact-label">TELEGRAM</div>
+            <div class="contact-value"><a href="{{ contact.telegram_url }}" target="_blank" rel="noopener">Yozish</a></div>
+          </div>
+        </div>
+        {% endif %}
+
+        {% if contact.linkedin_url %}
+        <div class="contact-item">
+          <div class="contact-icon"><i class="fab fa-linkedin-in"></i></div>
+          <div>
+            <div class="contact-label">LINKEDIN</div>
+            <div class="contact-value"><a href="{{ contact.linkedin_url }}" target="_blank" rel="noopener">Profil</a></div>
+          </div>
+        </div>
+        {% endif %}
+      </div>
+
+      <div class="contact-form">
+        <form method="post" action="{% url 'contact_submit' %}">
+          {% csrf_token %}
+          <div class="hp" aria-hidden="true">{{ form.website }}</div>
+
+          <div class="form-group">
+            <label>{{ contact.form_name_label|upper }}</label>
+            <input type="text" class="form-control" name="name" value="{{ form.name.value|default:'' }}" placeholder="Ismingiz" required>
+            {% if form.name.errors %}<span class="field-error">{{ form.name.errors.0 }}</span>{% endif %}
+          </div>
+
+          <div class="form-group">
+            <label>{{ contact.form_email_label|upper }}</label>
+            <input type="email" class="form-control" name="email" value="{{ form.email.value|default:'' }}" placeholder="example@mail.com" required>
+            {% if form.email.errors %}<span class="field-error">{{ form.email.errors.0 }}</span>{% endif %}
+          </div>
+
+          <div class="form-group">
+            <label>{{ contact.form_message_label|upper }}</label>
+            <textarea class="form-control" name="message" placeholder="Loyihangiz haqida yozing..." required>{{ form.message.value|default:'' }}</textarea>
+            {% if form.message.errors %}<span class="field-error">{{ form.message.errors.0 }}</span>{% endif %}
+          </div>
+
+          <button type="submit" class="submit-btn">{{ contact.form_button_text }}</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
