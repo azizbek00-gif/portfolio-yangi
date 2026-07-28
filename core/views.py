@@ -113,3 +113,18 @@ def telegram_webhook(request, secret):
             send_message(chat_id, "Oxirgi xabarlar:\n\n" + "\n".join(lines))
 
     return JsonResponse({"ok": True})
+
+
+def db_media(request, name):
+    """Bazada saqlangan faylni (rasm/PDF) uzatadi."""
+    from django.http import Http404
+    from .db_storage import DBFile
+
+    try:
+        row = DBFile.objects.get(name=name)
+    except DBFile.DoesNotExist:
+        raise Http404("Fayl topilmadi")
+
+    resp = HttpResponse(bytes(row.content), content_type=row.content_type)
+    resp["Cache-Control"] = "public, max-age=31536000, immutable"
+    return resp

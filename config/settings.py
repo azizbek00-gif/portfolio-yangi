@@ -128,10 +128,10 @@ STORAGES = {
 # Cloudinary — agar CLOUDINARY_URL berilgan bo'lsa, rasmlar o'sha yerga saqlanadi.
 # Render'ning bepul diski vaqtinchalik: Cloudinary'siz yuklangan rasmlar
 # har deploy'da o'chib ketadi.
+# Rasmlar endi to'g'ridan-to'g'ri bazaga saqlanadi (core/db_storage.py),
+# shuning uchun Cloudinary shart emas. CLOUDINARY_URL faqat kelajak uchun
+# qoldirilgan — hozir ishlatilmaydi.
 CLOUDINARY_URL = config("CLOUDINARY_URL", default="")
-if CLOUDINARY_URL:
-    INSTALLED_APPS += ["cloudinary", "cloudinary_storage"]
-    STORAGES["default"]["BACKEND"] = "cloudinary_storage.storage.MediaCloudinaryStorage"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 

@@ -1,5 +1,9 @@
 from django.db import models
 
+from core.db_storage import DatabaseStorage
+
+_db_storage = DatabaseStorage()
+
 
 class SingletonModel(models.Model):
     """Faqat bitta yozuvga ega model (sozlamalar uchun)."""
@@ -23,15 +27,20 @@ class SingletonModel(models.Model):
 class SiteSettings(SingletonModel):
     logo_text = models.CharField("Logo matni", max_length=50, default="AZIZBEK")
     profile_image = models.ImageField(
-        "Profil rasmi", upload_to="profil/", blank=True, null=True
+        "Profil rasmi", upload_to="profil/", blank=True, null=True,
+        storage=_db_storage,
     )
-    favicon = models.ImageField("Favicon", upload_to="favicon/", blank=True, null=True)
+    favicon = models.ImageField(
+        "Favicon", upload_to="favicon/", blank=True, null=True, storage=_db_storage
+    )
     footer_text = models.CharField(
         "Footer matni",
         max_length=200,
         default="Barcha huquqlar himoyalangan.",
     )
-    cv_file = models.FileField("CV fayli (PDF)", upload_to="cv/", blank=True, null=True)
+    cv_file = models.FileField(
+        "CV fayli (PDF)", upload_to="cv/", blank=True, null=True, storage=_db_storage
+    )
 
     class Meta:
         verbose_name = "Sayt sozlamalari"
@@ -134,6 +143,7 @@ class Project(models.Model):
     description = models.TextField("Tavsif")
     image = models.ImageField(
         "Rasm", upload_to="loyihalar/", blank=True, null=True,
+        storage=_db_storage,
         help_text="Kompyuteringizdan rasm tanlang.",
     )
     live_url = models.URLField(

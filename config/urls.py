@@ -1,7 +1,6 @@
 from django.conf import settings
-from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, re_path
 
 from core import views
 
@@ -14,9 +13,6 @@ urlpatterns = [
         views.telegram_webhook,
         name="telegram_webhook",
     ),
+    # Bazada saqlangan rasm/fayllarni uzatish (/media/<nom>)
+    re_path(r"^media/(?P<name>.+)$", views.db_media, name="db_media"),
 ]
-
-# Cloudinary ishlatilmasa, media fayllarni Django o'zi uzatadi.
-# Kichik portfolio sayt uchun bu yetarli.
-if settings.DEBUG or not settings.CLOUDINARY_URL:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
