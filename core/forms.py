@@ -9,9 +9,10 @@ class ContactForm(forms.ModelForm):
 
     class Meta:
         model = Message
-        fields = ["name", "email", "message"]
+        fields = ["name", "phone", "email", "message"]
         widgets = {
             "name": forms.TextInput(attrs={"autocomplete": "name"}),
+            "phone": forms.TextInput(attrs={"autocomplete": "tel", "type": "tel"}),
             "email": forms.EmailInput(attrs={"autocomplete": "email"}),
             "message": forms.Textarea(attrs={"rows": 5}),
         }

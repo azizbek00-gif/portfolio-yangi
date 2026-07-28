@@ -8,7 +8,7 @@
     <div class="hero-grid">
       <div>
         {% if hero.badge_text %}<div class="hero-title">{{ hero.badge_text }}</div>{% endif %}
-        <h1 class="hero-name">{{ hero.title|linebreaksbr }}</h1>
+        <h1 class="hero-name">{{ hero.title }}{% if hero.title_gold %}<br><span>{{ hero.title_gold }}</span>{% endif %}</h1>
         <p class="hero-desc">{{ hero.subtitle|linebreaksbr }}</p>
         <div class="hero-actions">
           <a href="{{ hero.button_link }}" class="contact-link" style="display:inline-block;">{{ hero.button_text }}</a>
@@ -159,6 +159,12 @@
             <label>{{ contact.form_name_label|upper }}</label>
             <input type="text" class="form-control" name="name" value="{{ form.name.value|default:'' }}" placeholder="Ismingiz" required>
             {% if form.name.errors %}<span class="field-error">{{ form.name.errors.0 }}</span>{% endif %}
+          </div>
+
+          <div class="form-group">
+            <label>TELEFON</label>
+            <input type="tel" class="form-control" name="phone" value="{{ form.phone.value|default:'' }}" placeholder="+998 __ ___ __ __">
+            {% if form.phone.errors %}<span class="field-error">{{ form.phone.errors.0 }}</span>{% endif %}
           </div>
 
           <div class="form-group">

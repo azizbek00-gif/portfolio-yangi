@@ -76,8 +76,13 @@ class NavItem(models.Model):
 class Hero(SingletonModel):
     badge_text = models.CharField("Kichik yozuv", max_length=60, default="AZIZBEK")
     title = models.CharField(
-        "Sarlavha", max_length=120, default="FULL-STACK\nDASTURCHI",
-        help_text="Yangi qatorga tushirish uchun Enter bosing.",
+        "Sarlavha (1-qator, oq)", max_length=120, default="FULL-STACK",
+        help_text="Birinchi qator — oq rangda.",
+    )
+    title_gold = models.CharField(
+        "Sarlavha (2-qator, oltin)", max_length=120, default="DASTURCHI",
+        blank=True,
+        help_text="Ikkinchi qator — oltin rangda. Bo'sh qoldirsangiz, faqat 1-qator chiqadi.",
     )
     subtitle = models.TextField(
         "Tavsif",
@@ -219,6 +224,7 @@ class Contact(SingletonModel):
 
 class Message(models.Model):
     name = models.CharField("Ism", max_length=120)
+    phone = models.CharField("Telefon", max_length=40, blank=True)
     email = models.EmailField("Email")
     message = models.TextField("Xabar")
     created_at = models.DateTimeField("Kelgan vaqti", auto_now_add=True)

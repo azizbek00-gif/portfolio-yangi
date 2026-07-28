@@ -63,7 +63,7 @@ class NavItemAdmin(admin.ModelAdmin):
 
 @admin.register(Hero)
 class HeroAdmin(SingletonAdmin):
-    fields = ("badge_text", "title", "subtitle", "button_text", "button_link")
+    fields = ("badge_text", "title", "title_gold", "subtitle", "button_text", "button_link")
 
 
 @admin.register(AboutSection)
@@ -135,10 +135,10 @@ class ContactAdmin(SingletonAdmin):
 
 @admin.register(Message)
 class MessageAdmin(admin.ModelAdmin):
-    list_display = ("name", "email", "short_message", "created_at", "is_read", "sent_to_telegram")
+    list_display = ("name", "phone", "email", "short_message", "created_at", "is_read", "sent_to_telegram")
     list_filter = ("is_read", "sent_to_telegram", "created_at")
     search_fields = ("name", "email", "message")
-    readonly_fields = ("name", "email", "message", "created_at", "sent_to_telegram")
+    readonly_fields = ("name", "phone", "email", "message", "created_at", "sent_to_telegram")
     actions = ("mark_read",)
 
     def has_add_permission(self, request):

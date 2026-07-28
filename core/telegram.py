@@ -40,6 +40,7 @@ def format_message(msg):
     return (
         "🔔 <b>Yangi xabar — Portfolio</b>\n\n"
         f"👤 <b>Ism:</b> {html.escape(msg.name)}\n"
+        f"📞 <b>Telefon:</b> {html.escape(msg.phone) if msg.phone else '—'}\n"
         f"📧 <b>Email:</b> {html.escape(msg.email)}\n"
         f"💬 <b>Xabar:</b>\n{html.escape(msg.message)}\n\n"
         f"🕐 {msg.created_at:%d.%m.%Y %H:%M}"
