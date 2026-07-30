@@ -12,6 +12,13 @@ admin.site.site_title = "Portfolio"
 admin.site.index_title = "Saytdagi hamma narsani shu yerdan o'zgartirasiz"
 
 
+class QuickDeleteMedia:
+    """Ro'yxat sahifalarida 'O'chirish' tugmasini ko'rsatuvchi JS."""
+
+    class Media:
+        js = ("admin_extra/quick_delete.js",)
+
+
 class SingletonAdmin(admin.ModelAdmin):
     """Bitta yozuvli sozlama modellari uchun."""
 
@@ -55,7 +62,7 @@ class SiteSettingsAdmin(SingletonAdmin):
 
 
 @admin.register(NavItem)
-class NavItemAdmin(admin.ModelAdmin):
+class NavItemAdmin(QuickDeleteMedia, admin.ModelAdmin):
     list_display = ("label", "anchor", "order", "is_active", "is_button")
     list_editable = ("anchor", "order", "is_active", "is_button")
     ordering = ("order",)
@@ -72,7 +79,7 @@ class AboutSectionAdmin(SingletonAdmin):
 
 
 @admin.register(AboutItem)
-class AboutItemAdmin(admin.ModelAdmin):
+class AboutItemAdmin(QuickDeleteMedia, admin.ModelAdmin):
     list_display = ("label", "value", "order")
     list_editable = ("value", "order")
     ordering = ("order",)
@@ -84,7 +91,7 @@ class ProjectSectionAdmin(SingletonAdmin):
 
 
 @admin.register(Project)
-class ProjectAdmin(admin.ModelAdmin):
+class ProjectAdmin(QuickDeleteMedia, admin.ModelAdmin):
     list_display = ("thumb", "title", "tech_stack", "order", "is_published", "amallar")
     list_display_links = ("thumb", "title")
     list_editable = ("order", "is_published")
@@ -134,7 +141,7 @@ class ContactAdmin(SingletonAdmin):
 
 
 @admin.register(Message)
-class MessageAdmin(admin.ModelAdmin):
+class MessageAdmin(QuickDeleteMedia, admin.ModelAdmin):
     list_display = ("name", "phone", "email", "short_message", "created_at", "is_read", "sent_to_telegram")
     list_filter = ("is_read", "sent_to_telegram", "created_at")
     search_fields = ("name", "email", "message")
